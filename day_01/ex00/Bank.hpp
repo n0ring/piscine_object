@@ -1,6 +1,7 @@
 #pragma once 
 
 #include <map>
+#include <deque>
 #include "Account.hpp"
 
 struct Bank
@@ -21,7 +22,10 @@ public:
 
 private:
 	int liquidity;
-	std::map<long long, Account> clientAccounts;
+	std::map<long long, Account>	clientAccounts;
+	long long						lastId;
+	std::map<int, std::vector>>		loans; // id, list of loans
+	std::deque<long long>			removedId;
 
 
 	friend std::ostream& operator << (std::ostream& p_os, const Bank& p_bank)
