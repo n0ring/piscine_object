@@ -16,16 +16,17 @@ public:
 	void createAccount(); // id auto
 	void deleteAccount(int);
 	void giveLoan(int, int);
-
 	void addValueToAccount(int, int); // take 5 %
 	void removeValueFromAccount(int, int);
+	
+	void addLiquidity(int);
 
 private:
 	int liquidity;
-	std::map<long long, Account>	clientAccounts;
-	long long						lastId;
+	std::map<long long, Account>	clientAccounts; // [id, account]
+	long long						nextId;
 	std::map<int, std::vector>>		loans; // id, list of loans
-	std::deque<long long>			removedId;
+	std::deque<long long>			removedId; // check on create acc
 
 
 	friend std::ostream& operator << (std::ostream& p_os, const Bank& p_bank)
