@@ -15,19 +15,19 @@ public:
 	Bank& operator=(const Bank&);
 
 	// Account manager
-	int createAccount(); // id auto
-	void deleteAccount(int);
-	void giveLoan(int, int);
-	void repayLoan(int, int);
-	void addValueToAccount(int, int); // take 5 %
-	void removeValueFromAccount(int, int);
-	void changeId(int, int);
-	
-	void addLiquidity(int);
+	long long createAccount(); // id auto
+	void deleteAccount(long long);
+	void giveLoan(long long, double);
+	void repayLoan(long long, double);
+	void addValueToAccount(long long, double); // take 5 %
+	void removeValueFromAccount(long long, double);
+	void changeId(long long, long long);
+	void addLiquidity(double);
 
 	// getters
-	int getLiquidity() const;
-	Account& operator[](int);
+	const double& getLiquidity();
+	const Account& operator[](long long) const;
+	const std::vector<double>& getLoans(long long);
 
 	// exceptions
 	class AccountNotfound: public std::exception
@@ -44,20 +44,14 @@ public:
 	{
 		virtual const char* what() const throw() {return "Input value was invalid";}
 	};
+
+	friend std::ostream& operator<< (std::ostream& p_os, const Bank& p_bank);
 private:
-	int liquidity;
+	double liquidity;
 	std::map<long long, Account>	clientAccounts; // [id, account]
 	long long						nextId;
-	std::map<int, std::vector<int> >	loans; // id, list of loans
+	std::map<long long, std::vector<double> >	loans; // id, list of loans
 	std::deque<long long>			removedId; // check on create acc
-
-
-	// friend std::ostream& operator << (std::ostream& p_os, const Bank& p_bank)
-	// {
-	// 	p_os << "Bank informations : " << std::endl;
-	// 	p_os << "Liquidity : " << p_bank.liquidity << std::endl;
-	// 	for (auto &clientAccount : p_bank.clientAccounts)
-    //     p_os << *clientAccount << std::endl;
-	// 	return (p_os);
-	// }
 };
+
+std::ostream& operator<< (std::ostream& p_os, const Bank& p_bank);

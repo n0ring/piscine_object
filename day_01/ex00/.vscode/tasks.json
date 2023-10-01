@@ -8,9 +8,10 @@
                 "-fcolor-diagnostics",
                 "-fansi-escape-codes",
                 "-g",
-                "${file}",
+                "${cwd}/src/*",
+                "-I {cwd}/include",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "Bank"
             ],
             "options": {
                 "cwd": "${fileDirname}"

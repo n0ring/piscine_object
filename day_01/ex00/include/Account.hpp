@@ -12,20 +12,23 @@ public:
 	Account(const Account&);
 	Account& operator=(const Account&);
 
-	void addValue(int);
-	void removeValue(int);
-	const int& getValue() const { return m_value; }
-	const int& getId() const { return m_id; }
-	void setId(int);
+	void addValue(double);
+	void removeValue(double);
+	const double& getValue() const { return m_value; }
+	const long long& getId() const { return m_id; }
+	void setId(long long);
 
 	class InvalidInputValue: public std::exception
 	{
 		virtual const char* what() const throw() {return "Input value was invalid";}
 	};
+
 private: 
-	int m_id;
-	int m_value;
+	long long m_id;
+	double m_value;
+
 };
+std::ostream& operator<< (std::ostream& p_os, const Account& p_account);
 
 // std::ostream& operator << (std::ostream& p_os, const Account& p_account)
 // {

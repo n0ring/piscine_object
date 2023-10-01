@@ -1,13 +1,16 @@
-SRC		=	main.cpp \
-			Bank.cpp\
-			Account.cpp
-T_SRC = Account.cpp\
-			Bank.cpp
-OBJ		=	$(SRC:.c=.o)
-NAME	=	Bank
-T_NAME	=	Test
+SRC		=	$(addprefix src/,	main.cpp\
+								Account.cpp\
+								Bank.cpp)
+
+OBJDIR	=	obj
+SRCDIR	=	src
+OBJ		=	$(addprefix  obj/, $(notdir  $(SRC:.cpp=.o)))
+NAME	=	bank
 CC		=	clang++
-CFLAGS	=	-Wall -Wextra -Werror 
+CFLAGS	=	-Wall -Wextra -Werror -MD -MP -std=c++98 -I include
+DEPENDS :=	$(addprefix  obj/, $(notdir  $(SRC:.cpp=.d)))
+
+
 
 .PHONY			:	all re clean fclean
 
@@ -16,20 +19,27 @@ all				:	$(NAME)
 $(NAME)			:	$(OBJ) Makefile
 					$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 
-%.o	: %.cpp
+$(OBJDIR)/%.o	:	$(SRCDIR)/%.cpp
 					$(CC) $(CFLAGS) -c -o $@ $<
 
 clean			:	
-					rm -f $(OBJ)
+					rm -f $(OBJ) $(DEPENDS)
+					rm -r $(OBJDIR)
 
 fclean			:	clean
 					rm -f $(NAME)
 
-re				:	fclean all
-
-x				: $(NAME)
+x				:	all
 					./$(NAME)
 
-test			:
-					$(CC) $(CFLAGS) tests/test_main.cpp $(T_SRC) -o $(T_NAME)
-					./$(T_NAME)
+leaks			:	all
+					leaks --atExit -- ./$(NAME)
+
+$(OBJ)			: | $(OBJDIR)
+
+$(OBJDIR)		: 
+					mkdir $(OBJDIR)
+
+re				:	fclean all
+
+-include $(DEPENDS)
