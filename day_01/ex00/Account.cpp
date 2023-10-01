@@ -20,15 +20,18 @@ Account& Account::operator=(const Account& other) {
 
 void Account::addValue(int inputVal) {
 	if (inputVal < 0) {
-		// throw 
+		throw Account::InvalidInputValue();
 	}
 	m_value += inputVal;
 }
 
 void Account::removeValue(int removeVal) {
 	if (m_value - removeVal < 0) {
-		// throw 
+		throw Account::InvalidInputValue();
 	}
 	m_value -= removeVal;
 }
 
+void Account::setId(int newId) {
+	m_id = newId;
+}

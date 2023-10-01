@@ -1,10 +1,12 @@
 #pragma once 
 
 #include <iostream>
+#include <exception>
 
 struct Account {
 
 public: 
+	Account(void) {};
 	Account(int, int);
 	~Account();
 	Account(const Account&);
@@ -14,8 +16,13 @@ public:
 	void removeValue(int);
 	const int& getValue() const { return m_value; }
 	const int& getId() const { return m_id; }
+	void setId(int);
+
+	class InvalidInputValue: public std::exception
+	{
+		virtual const char* what() const throw() {return "Input value was invalid";}
+	};
 private: 
-	Account(void) {};
 	int m_id;
 	int m_value;
 };
