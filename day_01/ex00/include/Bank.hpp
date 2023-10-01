@@ -30,18 +30,15 @@ public:
 	const std::vector<double>& getLoans(long long);
 
 	// exceptions
-	class AccountNotfound: public std::exception
-	{
+	class AccountNotfound: public std::exception {
 		virtual const char* what() const throw() {return "Account not found";}
 	};
 
-	class LiquidityNotEnough: public std::exception
-	{
+	class LiquidityNotEnough: public std::exception {
 		virtual const char* what() const throw() {return "Liquidity not enough";}
 	};
 
-	class InvalidInputValue: public std::exception
-	{
+	class InvalidInputValue: public std::exception {
 		virtual const char* what() const throw() {return "Input value was invalid";}
 	};
 

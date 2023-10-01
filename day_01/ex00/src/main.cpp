@@ -65,8 +65,20 @@ int bankTest() {
 
     // Test change account ID
     int id4 = bank.createAccount();
+    int id5 = bank.createAccount();
+
     bank.changeId(id4, 42);
     assert(bank[42].getId() == 42);
+	bool assertException = false;
+	try
+	{
+		bank.changeId(42, id5);
+	}
+	catch(const std::exception& e)
+	{
+		assertException = true;
+	}
+	assert(assertException);
     std::cout << "Bank changeId OK\n";
 
     std::cout << "All Bank tests passed!\n";

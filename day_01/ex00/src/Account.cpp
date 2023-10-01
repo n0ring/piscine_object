@@ -1,11 +1,8 @@
 #include "Account.hpp"
 
-Account::Account(int id, int value) : m_id(id), m_value(value) {
-}
+Account::Account(int id, int value) : m_id(id), m_value(value) {}
 
-Account::~Account() {
-
-}
+Account::~Account() {}
 
 Account::Account(const Account& other) {
 	m_id = other.m_id;
@@ -36,7 +33,6 @@ void Account::removeValue(double removeVal) {
 void Account::setId(long long newId) {
 	m_id = newId;
 }
-
 
 std::ostream& operator<< (std::ostream& p_os, const Account& p_account) {
 	p_os << "[" << p_account.getId() << "] - [" << p_account.getValue() << "]";

@@ -145,23 +145,21 @@ const Account& Bank::operator[](long long id) const {
     return clientAccounts.at(id);
 }
 
-
-std::ostream& operator<< (std::ostream& p_os, const Bank& p_bank)
-	{
-		p_os << "Bank informations : " << std::endl;
-		p_os << "Liquidity : " << p_bank.liquidity << std::endl;
-		p_os << "Accounts : " << std::endl;
-		for (std::map<long long, Account>::const_iterator it = p_bank.clientAccounts.begin(); it != p_bank.clientAccounts.end(); it++) {
-			p_os << it->second << std::endl;
-			p_os << "Loans : ";
-			if (p_bank.loans.count(it->first) == 0) {
-				p_os << "No loans" << std::endl;
-				continue;
-			}
-			for (size_t i = 0; i < p_bank.loans.at(it->first).size(); i++) {
-				p_os << p_bank.loans.at(it->first)[i] << " ";
-			}
-			p_os << std::endl;
+std::ostream& operator<< (std::ostream& p_os, const Bank& p_bank) {
+	p_os << "Bank informations : " << std::endl;
+	p_os << "Liquidity : " << p_bank.liquidity << std::endl;
+	p_os << "Accounts : " << std::endl;
+	for (std::map<long long, Account>::const_iterator it = p_bank.clientAccounts.begin(); it != p_bank.clientAccounts.end(); it++) {
+		p_os << it->second << std::endl;
+		p_os << "Loans : ";
+		if (p_bank.loans.count(it->first) == 0) {
+			p_os << "No loans" << std::endl;
+			continue;
 		}
-		return (p_os);
+		for (size_t i = 0; i < p_bank.loans.at(it->first).size(); i++) {
+			p_os << p_bank.loans.at(it->first)[i] << " ";
+		}
+		p_os << std::endl;
 	}
+	return (p_os);
+}
