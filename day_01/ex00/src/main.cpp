@@ -2,6 +2,8 @@
 #include <cassert>
 #include "Bank.hpp"
 
+#define COUT_GREEN "\033[32m"
+#define COUT_BLACK "\033[0m"
 
 int bankTest() {
     // Test create account
@@ -32,9 +34,11 @@ int bankTest() {
 
     // Test give loan
     int id1 = bank.createAccount();
+    int currentLiquidity = bank.getLiquidity();
     bank.giveLoan(id1, 100);
     bank.giveLoan(id1, 100);
     assert(bank[id1].getValue() == 200);
+    assert(bank.getLiquidity() == currentLiquidity - 200);
     std::cout << "Bank giveLoan OK\n";
 
 	// Test repay loan
@@ -52,8 +56,10 @@ int bankTest() {
 
     // Test add value to account
     int id2 = bank.createAccount();
+    double liquidity = bank.getLiquidity();
     bank.addValueToAccount(id2, 50);
     assert(bank[id2].getValue() == 50 - 50 * COMMISION);
+    assert(bank.getLiquidity() == liquidity + 50 * COMMISION);
     std::cout << "Bank addValueToAccount OK\n";
 
     // Test remove value from account
@@ -66,9 +72,10 @@ int bankTest() {
     // Test change account ID
     int id4 = bank.createAccount();
     int id5 = bank.createAccount();
-
+    int id4Value = bank[id4].getValue();
     bank.changeId(id4, 42);
     assert(bank[42].getId() == 42);
+    assert(bank[42].getValue() == id4Value);
 	bool assertException = false;
 	try
 	{
@@ -80,6 +87,14 @@ int bankTest() {
 	}
 	assert(assertException);
     std::cout << "Bank changeId OK\n";
+
+
+    // test operator[]
+    // int id6 = bank.createAccount(); 
+    // const Account& acc = bank[id6];
+    // acc.getValue();
+
+
 
     std::cout << "All Bank tests passed!\n";
 	std::cout << bank << std::endl;
@@ -142,6 +157,8 @@ void accountTest() {
 int main() {
 	accountTest();
 	bankTest();
+    std::cout << COUT_GREEN << "All tests passed!\n" << COUT_BLACK;
+
     return 0;
 }
 

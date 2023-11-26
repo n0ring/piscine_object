@@ -7,7 +7,7 @@ struct Account {
 
 public: 
 	Account(void) {};
-	Account(int, int);
+	Account(int, int); // id, value
 	~Account();
 	Account(const Account&);
 	Account& operator=(const Account&);

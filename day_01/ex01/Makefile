@@ -1,11 +1,11 @@
 SRC		=	$(addprefix src/,	main.cpp\
-								Account.cpp\
-								Bank.cpp)
+								Vector2.cpp\
+								Graph.cpp)
 
 OBJDIR	=	obj
 SRCDIR	=	src
 OBJ		=	$(addprefix  obj/, $(notdir  $(SRC:.cpp=.o)))
-NAME	=	bank
+NAME	=	graph
 CC		=	clang++
 CFLAGS	=	-Wall -Wextra -Werror -MD -MP -std=c++98 -I include
 DEPENDS :=	$(addprefix  obj/, $(notdir  $(SRC:.cpp=.d)))
