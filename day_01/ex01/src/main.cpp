@@ -3,7 +3,10 @@
 
 int main() {
 	Graph graph;
-	graph.addPoint(10, 9);
+	// graph.addPoint(1.1, 1);
+	graph.addPoint(1, 2);
+	graph.addPoint(2, 1);
+	graph.addPoint(2, 0);
 	graph.print();
 
 

@@ -3,7 +3,8 @@
 Graph::Graph() : kEmptyCell('.'), kPointCell('X') {
 	graphSize = -1;
 	graphWidth	= -1;
-	maxLenOfFloatPart = 0;
+	maxLenOfFloatPartY = 0;
+	maxLenOfFloatPartX = 0;
 }
 
 Graph::~Graph() {
@@ -19,9 +20,10 @@ Graph& Graph::operator=(Graph const & rhs) {
 		points = rhs.points;
 		graphSize = rhs.graphSize;
 		graphWidth = rhs.graphWidth;
-		maxLenOfFloatPart = rhs.maxLenOfFloatPart;
+		maxLenOfFloatPartY = rhs.maxLenOfFloatPartY;
 		kEmptyCell = rhs.kEmptyCell;
 		kPointCell = rhs.kPointCell;
+		maxLenOfFloatPartX = rhs.maxLenOfFloatPartX;
 	}
 	return *this;
 }
@@ -31,6 +33,25 @@ int Graph::addPoint(Vector2 point) {
 	return 0;
 }
 
+// print map of sets 
+void printMap(std::map<float, std::set<float> > &points) {
+	std::map<float, std::set<float> >::iterator it = points.begin();
+	std::map<float, std::set<float> >::iterator ite = points.end();
+	std::set<float>::iterator it2;
+	std::set<float>::iterator ite2;
+
+	while (it != ite) {
+		std::cout << it->first << ": ";
+		it2 = it->second.begin();
+		ite2 = it->second.end();
+		while (it2 != ite2) {
+			std::cout << *it2 << ' ';
+			it2++;
+		}
+		std::cout << '\n';
+		it++;
+	}
+}
 
 int Graph::addPoint(float x, float y) {
 	if (x < 0 || y < 0)
@@ -40,9 +61,12 @@ int Graph::addPoint(float x, float y) {
 		return -1;
 	}
 	points[y].insert(x);
-	graphSize = std::max(graphSize, y);
+	xSet.insert(x); // add x of point for x axis line
+
+	graphSize = std::max(static_cast<float>(graphSize), y);
 	graphWidth = std::max(graphWidth, static_cast<int>(x) + X_SHIFT);
-	maxLenOfFloatPart = std::max(maxLenOfFloatPart, findLenOfFloatPart(y)) + 1;
+	maxLenOfFloatPartY = std::max(maxLenOfFloatPartY, findLenOfFloatPart(y)) + 1;
+	maxLenOfFloatPartX = std::max(maxLenOfFloatPartX, findLenOfFloatPart(x)) + 1;
 	return 0;
 }
 
@@ -54,13 +78,22 @@ int Graph::addPoint(float x, float y) {
 >& 1 . . . . . .
 >& 0 X . . . . .
 >& 0 1 2 3 4 5 6
+
+
+>& 2.2   .    .    X    X    X    
+>& 1.2   .    .    .    .    
+>& 0.2   .    .    .    .    
+>& 0     0    1    1.100000 2.000000 3.000000 
 */
 
 void Graph::print() {
 	std::map<float, std::set<float> >::reverse_iterator it = points.rbegin();
 	std::map<float, std::set<float> >::reverse_iterator ite = points.rend();
+
+	printMap(points);
+	std::cout << maxLenOfFloatPartX  << " " << maxLenOfFloatPartY << '\n';
 	while (graphSize >= 0) {
-		if (it != ite && it->first >= graphSize) { // need set
+		if (it != ite && it->first >= static_cast<float>(graphSize)) {
 			printLine(it->first, it->second);
 			if (it->first == graphSize)
 				graphSize--;
@@ -81,27 +114,71 @@ int Graph::setSize(int size) {
 
 void Graph::printLine(float y, std::set<float> &currentSet) {
 	printYAxis(y);
-	for (int i = 0; i < graphWidth; i++) {
-		if (currentSet.count(i))
-			std::cout << kPointCell << ' ';
-		else
-			std::cout << kEmptyCell << ' ';
+	std::set<float>::iterator it = xSet.begin();
+	std::set<float>::iterator ite = xSet.end();
+	int idx  = 0;
+
+	while (idx < graphWidth || it != ite) {
+
+		if (it != ite && *it <= idx) {
+			if (currentSet.count(*it))
+				printSymbol(kPointCell);
+			else
+				printSymbol(kEmptyCell);
+			if (*it == idx)
+				idx++;
+			it++;
+		} else {
+			printSymbol(kEmptyCell);
+			idx++;
+		}
 	}
 	std::cout << '\n';
 }
 
 void Graph::printLine(float y) {
-	printYAxis(y);	
-	for (int i = 0; i < graphWidth; i++) {
-		std::cout << kEmptyCell << ' ';
+	printYAxis(y);
+	std::set<float>::iterator it = xSet.begin();
+	std::set<float>::iterator ite = xSet.end();
+	int idx  = 0;
+
+	while (idx < graphWidth || it != ite) {
+		if (it != ite && *it <= idx) {
+			if (*it == idx)
+				idx++;
+			it++;
+		} else {
+			idx++;
+		}
+		printSymbol(kEmptyCell);
 	}
 	std::cout << '\n';
 }
+/*
+>& 2.2  .     .     X     X     .     X     X     
+>& 2    .     .     .     .     
+>& 1    .     .     .     .     
+>& 0    .     .     .     .     
+>&      0     1     1.1   2     3     3.3   3.9   
+*/
 
 void Graph::printXAxis() {
-	printYAxis(0); // TODO
-	for (int i = 0; i < graphWidth; i++) {
-		std::cout << i << ' ';
+	std::cout << ">& ";
+	printSymbol(' ');
+	std::set<float>::iterator it = xSet.begin();
+	std::set<float>::iterator ite = xSet.end();
+	float idx = 0;
+	
+	while (idx < graphWidth || it != ite) {
+		if (it != ite && *it <= idx ) {
+			printSymbol(*it);
+			if (*it == idx)
+				idx++;
+			it++;
+		} else {
+			printSymbol(idx);
+			idx++;
+		}
 	}
 	std::cout << '\n';
 }
@@ -115,9 +192,18 @@ int Graph::findLenOfFloatPart(float num) {
 	return len;
 }
 
-
 // align to right 
 void Graph::printYAxis(float y) {
-	std::cout << ">& " << std::left << std::setw(maxLenOfFloatPart) << y << "  ";
+	// std::cout << ">& " << std::left << std::setw(maxLenOfFloatPartY) << y;
+	std::cout << ">& ";
+	printSymbol(y);
 
+}
+
+void Graph::printSymbol(char symbol) {
+	std::cout << std::left << std::setw(maxLenOfFloatPartX) << symbol << ' ';
+}
+
+void Graph::printSymbol(float symbol) {
+	std::cout << std::left << std::setw(maxLenOfFloatPartX) << symbol << ' ';
 }

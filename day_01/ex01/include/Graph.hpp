@@ -25,9 +25,11 @@ public:
 
 private: 
 	std::map<float, std::set<float> > points; // x, y
-	float graphSize;
+	std::set<float> xSet;
+	int graphSize;
 	int graphWidth;
-	int maxLenOfFloatPart;
+	int maxLenOfFloatPartY;
+	int maxLenOfFloatPartX;
 	char kEmptyCell;
 	char kPointCell;
 
@@ -36,4 +38,6 @@ private:
 	void printXAxis();
 	int findLenOfFloatPart(float num);
 	void printYAxis(float y);
+	void printSymbol(char symbol);
+	void printSymbol(float symbol);
 };
