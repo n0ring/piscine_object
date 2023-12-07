@@ -1,4 +1,4 @@
-obj/Worker.o: src/Worker.cpp include/Worker.h \
+obj/Tool.o: src/Tool.cpp include/Tool.h include/Worker.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/set \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__config \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__config_site \
@@ -418,7 +418,9 @@ obj/Worker.o: src/Worker.cpp include/Worker.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_fsfilcnt_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_nl_item.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__bsd_locale_defaults.h \
-  include/Statistic.h include/Tool.h include/Workshop.h
+  include/Statistic.h include/Workshop.h
+
+include/Tool.h:
 
 include/Worker.h:
 
@@ -1261,7 +1263,5 @@ include/Position.h:
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__bsd_locale_defaults.h:
 
 include/Statistic.h:
-
-include/Tool.h:
 
 include/Workshop.h:

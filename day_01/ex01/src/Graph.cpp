@@ -33,7 +33,6 @@ int Graph::addPoint(Vector2 point) {
 	return 0;
 }
 
-// print map of sets 
 void printMap(std::map<float, std::set<float> > &points) {
 	std::map<float, std::set<float> >::iterator it = points.begin();
 	std::map<float, std::set<float> >::iterator ite = points.end();
@@ -69,22 +68,6 @@ int Graph::addPoint(float x, float y) {
 	maxLenOfFloatPartX = std::max(maxLenOfFloatPartX, findLenOfFloatPart(x)) + 1;
 	return 0;
 }
-
-/*
->& 5 . . . . . .
->& 4 . . X . . .
->& 3 . . . . . .
->& 2 . . X . X .
->& 1 . . . . . .
->& 0 X . . . . .
->& 0 1 2 3 4 5 6
-
-
->& 2.2   .    .    X    X    X    
->& 1.2   .    .    .    .    
->& 0.2   .    .    .    .    
->& 0     0    1    1.100000 2.000000 3.000000 
-*/
 
 void Graph::print() {
 	std::map<float, std::set<float> >::reverse_iterator it = points.rbegin();
@@ -154,13 +137,6 @@ void Graph::printLine(float y) {
 	}
 	std::cout << '\n';
 }
-/*
->& 2.2  .     .     X     X     .     X     X     
->& 2    .     .     .     .     
->& 1    .     .     .     .     
->& 0    .     .     .     .     
->&      0     1     1.1   2     3     3.3   3.9   
-*/
 
 void Graph::printXAxis() {
 	std::cout << ">& ";

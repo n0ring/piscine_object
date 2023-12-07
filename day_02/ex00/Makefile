@@ -1,8 +1,12 @@
 SRC		=	$(addprefix src/,	main.cpp\
 								Position.cpp\
 								Statistic.cpp\
+								Tool.cpp\
 								Worker.cpp\
-								Shovel.cpp)
+								Shovel.cpp\
+								Hammer.cpp\
+								Workshop.cpp\
+								)
 
 OBJDIR	=	obj
 SRCDIR	=	src

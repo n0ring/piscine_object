@@ -1,11 +1,9 @@
 #pragma once 
 
 #include <iostream>
-#include "Worker.h"
+#include "Tool.h"
 
-
-struct Worker;
-struct Shovel
+struct Shovel : public Tool
 {
 public:
 	Shovel();
@@ -13,10 +11,8 @@ public:
 	Shovel(const Shovel& src);
 	Shovel& operator=(const Shovel& src);
 
-	void use();
-	void giveToWorker(Worker* worker);
-	void takeFromWorker();
+	virtual void use();
+
 private:
-	int numberOfUses; // TODO check that is implimented 
-	Worker* currentWorker;
+
 };
