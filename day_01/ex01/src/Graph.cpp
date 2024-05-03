@@ -73,8 +73,8 @@ void Graph::print() {
 	std::map<float, std::set<float> >::reverse_iterator it = points.rbegin();
 	std::map<float, std::set<float> >::reverse_iterator ite = points.rend();
 
-	printMap(points);
-	std::cout << maxLenOfFloatPartX  << " " << maxLenOfFloatPartY << '\n';
+	// printMap(points);
+	// std::cout << maxLenOfFloatPartX  << " " << maxLenOfFloatPartY << '\n';
 	while (graphSize >= 0) {
 		if (it != ite && it->first >= static_cast<float>(graphSize)) {
 			printLine(it->first, it->second);
