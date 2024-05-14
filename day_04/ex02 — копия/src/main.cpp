@@ -36,13 +36,20 @@ int main() {
 	CourseList::getInstance().addElement(course);
 
 	std::cout << "<-- Test for subscribe student to course path-->\n";
-	std::shared_ptr<Course> course2 = professorPtr2->createCourse("Potions", 10, 30);
+	std::shared_ptr<Course> course2 = professorPtr2->createCourse("Potions", 1, 30);
 	if (course2 == nullptr) {
 		std::cout << "Course not created\n";
 		return 1;
 	}
+
+	std::shared_ptr<Classroom> classroom = professorPtr2->createClassRoom("Secret room");
+	professorPtr2->setClassRoom(course2, classroom);
+	
 	studentPtr->subscribeToCourse(course2);
 
+	professorPtr2->gradeStudent(studentPtr, course2);
+	professorPtr2->teach();
+	professorPtr2->gradeStudent(studentPtr, course2);
 
 	return 0;
 }

@@ -30,3 +30,25 @@ bool Course::subscribe(Student* p_student)
 	std::cout << "Course is full" << std::endl;
 	return false;
 }
+
+
+void Course::teachStudent()
+{
+	std::cout << "Course: " << _name << " teaching student" << std::endl;
+	for (auto& student : _students)
+	{
+		student->attendCourse(this);
+	}
+}
+
+bool Course::assignToClassRoom(std::shared_ptr<Classroom> p_classroom)
+{
+	if (p_classroom)
+	{
+		std::cout << "Course: " << _name << " is assigned to classroom" << std::endl;
+		_classroom = p_classroom;
+		return true;
+	}
+	return false;
+}
+

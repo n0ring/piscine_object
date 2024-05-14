@@ -30,7 +30,6 @@ class Classroom : public Room
 {
 private:
 	std::shared_ptr<Course> _currentRoom;
-
 public:
 	Classroom() {}
 	void assignCourse(std::shared_ptr<Course> p_course);

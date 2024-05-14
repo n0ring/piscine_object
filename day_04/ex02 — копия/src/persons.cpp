@@ -128,6 +128,7 @@ std::shared_ptr<Course> Headmaster::createCourse(Professor* p_professor)
 		newCourse->assign(p_professor);
 		newCourse->setMaxNumberOfStudents(form->getMaximumNumberOfStudent());
 		newCourse->setNumberOfClasToGraduate(form->getNumberOfClassToGraduate());
+		p_professor->assignCourse(newCourse);
 		executeForm(form);
 		return newCourse;
 	}
@@ -144,7 +145,7 @@ bool Headmaster::subscribeStudentToCourse(Student* p_student, std::shared_ptr<Co
 		if (p_course->subscribe(p_student))
 		{
 			executeForm(form);
-			p_student->subscribe(p_course);
+			p_student->subscribe(p_course.get());
 			return true;
 		}
 	}
@@ -191,6 +192,9 @@ void Professor::fillForm(std::shared_ptr<Form> p_form)
 		formPtr->setNumberOfClasToGraduate(_courseToCreate.top().numberOfClassToGraduate);
 		_courseToCreate.pop();
 		break;
+	case FormType::NeedMoreClassRoom:
+		p_text = _roomName;
+		break;
 	default:
 		assert(false);
 		break;
@@ -212,6 +216,20 @@ bool Professor::gradeStudent(std::shared_ptr<Student> p_student, std::shared_ptr
 	return true;
 }
 
+void Professor::teach()
+{
+	if (_currentCourse)
+	{
+		std::cout << "Professor: " << getName() << " is teaching course: " << _currentCourse->getName() << std::endl;
+		_currentCourse->teachStudent();
+	}
+	else 
+	{
+		std::cout << "Professor: " << getName() << " has no course to teach" << std::endl;
+	}
+
+}
+
 std::shared_ptr<Course> Professor::createCourse(std::string courseName, int numberOfClass,int maxStudent)
 {
 	courseInfo info;
@@ -225,6 +243,38 @@ std::shared_ptr<Course> Professor::createCourse(std::string courseName, int numb
 	newCourse = _headmaster->createCourse(this);
 
 	return newCourse;
+}
+std::shared_ptr<Classroom> Headmaster::createClassRoom(Professor* p_professor)
+{
+	std::shared_ptr<Form> form = _secretary->createForm(FormType::NeedMoreClassRoom);
+	p_professor->fillForm(form);
+	if (validateForm(form))
+	{
+		sign(form);
+		executeForm(form);
+		return std::make_shared<Classroom>();
+	}
+	return nullptr;
+}
+
+std::shared_ptr<Classroom> Professor::createClassRoom(std::string roomName)
+{
+	_roomName = roomName;
+	return _headmaster->createClassRoom(this);
+}
+
+bool Headmaster::assignClassroomToCourse(std::shared_ptr<Course> p_course, std::shared_ptr<Classroom> p_classroom)
+{
+	if (p_course->assignToClassRoom(p_classroom))
+	{
+		return true;
+	}
+	return false;
+}
+
+bool Professor::setClassRoom(std::shared_ptr<Course> p_course, std::shared_ptr<Classroom> p_classroom)
+{
+	return _headmaster->assignClassroomToCourse(p_course, p_classroom);
 }
 
 void Student::fillForm(std::shared_ptr<Form> p_form)
@@ -253,7 +303,7 @@ void Student::subscribeToCourse(std::shared_ptr<Course> p_course)
 	// call head master to subscribe
 }
 
-void Student::subscribe(std::shared_ptr<Course> p_course)
+void Student::subscribe(Course* p_course)
 {
 	_subscribedCourse[p_course] = 0;
 	std::cout << "Student: " << getName() << " subscribed to course: " << p_course->getName() << std::endl;
@@ -264,7 +314,7 @@ void Student::graduate(std::shared_ptr<Course> p_course)
 	_graduatedCourses.push_back(p_course);
 }
 
-bool  Student::attendCourse(std::shared_ptr<Course> p_course)
+bool  Student::attendCourse(Course* p_course)
 {
 	if (_subscribedCourse.count(p_course))
 	{
@@ -278,9 +328,9 @@ bool  Student::attendCourse(std::shared_ptr<Course> p_course)
 
 int Student::getNumberOfClassAttended(std::shared_ptr<Course> p_course)
 {
-	if (_subscribedCourse.count(p_course))
+	if (_subscribedCourse.count(p_course.get()))
 	{
-		return _subscribedCourse[p_course];
+		return _subscribedCourse[p_course.get()];
 	}
 	return 0;
 }

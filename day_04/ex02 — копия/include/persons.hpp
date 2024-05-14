@@ -6,6 +6,7 @@
 #include <map>
 #include "forms.hpp"
 #include "course.hpp"
+#include "rooms.hpp"
 
 class Form;
 class CourseFinishedForm;
@@ -50,7 +51,7 @@ public:
 class Student : public Person
 {
 private:
-	std::map<std::shared_ptr<Course>, int > _subscribedCourse; // course and number of class attended
+	std::map<Course*, int > _subscribedCourse; // course and number of class attended
 
 	std::vector<std::shared_ptr<Course> > _graduatedCourses;
 	std::stack<std::shared_ptr<Course> > _coursesToSubscribe;
@@ -65,11 +66,11 @@ public:
 	void attendClass(std::shared_ptr<Classroom> p_classroom);
 	void exitClass();
 	void graduate(std::shared_ptr<Course> p_course);
-	void subscribe(std::shared_ptr<Course> p_course);
+	void subscribe(Course* p_course);
 	void subscribeToCourse(std::shared_ptr<Course> p_course);
 	void fillForm(std::shared_ptr<Form> p_form);
 
-	bool attendCourse(std::shared_ptr<Course> p_course);
+	bool attendCourse(Course* p_course);
 	int getNumberOfClassAttended(std::shared_ptr<Course> p_course);
 };
 
@@ -90,6 +91,8 @@ public:
 	void graduateStudent(Professor* p_professor, std::shared_ptr<Student> p_student, std::shared_ptr<Course> p_course);
 	std::shared_ptr<Course> createCourse(Professor* p_professor);
 	bool subscribeStudentToCourse(Student* p_student, std::shared_ptr<Course> p_course);
+	std::shared_ptr<Classroom> createClassRoom(Professor* p_professor);
+	bool assignClassroomToCourse(std::shared_ptr<Course> p_course, std::shared_ptr<Classroom> p_classroom);
 };
 
 class Secretary : public Staff
@@ -115,19 +118,23 @@ private:
 	std::shared_ptr<Headmaster> _headmaster;
 	std::stack<std::pair<std::shared_ptr<Student>, std::shared_ptr<Course>>> _studentsToGraduate;
 	std::stack<courseInfo> _courseToCreate;
+	std::string			_roomName;
 public:
 	Professor() = default;
 	Professor(std::string p_name, std::shared_ptr<Headmaster> headmaster) : Staff(p_name), _headmaster(headmaster) {}
 	~Professor() {}
 	Professor& operator=(const Professor& p_professor);
 	Professor(const Professor& p_professor);
-	void assignCourse(std::shared_ptr<Course> p_course);
+	void assignCourse(std::shared_ptr<Course> p_course) {_currentCourse = p_course;}
 	void doClass();
 	void closeCourse();
 
 	bool gradeStudent(std::shared_ptr<Student> p_student, std::shared_ptr<Course> p_course);
 	std::shared_ptr<Course> createCourse(std::string courseName, int numberOfClass,int maxStudent);
-	void fillForm(std::shared_ptr<Form> p_form);
 	
-
+	std::shared_ptr<Classroom> createClassRoom(std::string roomName);
+	void fillForm(std::shared_ptr<Form> p_form);
+	bool setClassRoom(std::shared_ptr<Course> p_course, std::shared_ptr<Classroom> p_classroom);
+	
+	void teach();
 };

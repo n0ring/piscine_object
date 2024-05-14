@@ -423,7 +423,7 @@ obj/persons.o: src/persons.cpp include/persons.hpp \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__tree \
   include/forms.hpp \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/vector \
-  include/course.hpp
+  include/course.hpp include/rooms.hpp
 
 include/persons.hpp:
 
@@ -1276,3 +1276,5 @@ include/forms.hpp:
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/vector:
 
 include/course.hpp:
+
+include/rooms.hpp:
