@@ -9,7 +9,7 @@ SRC		=	$(addprefix src/,	main.cpp\
 OBJDIR	=	obj
 SRCDIR	=	src
 OBJ		=	$(addprefix  obj/, $(notdir  $(SRC:.cpp=.o)))
-NAME	=	observer
+NAME	=	facade
 CC		=	clang++
 CFLAGS	=	--std=c++11 -Wall -Wextra -Werror -MD -MP -I include 
 DEPENDS :=	$(addprefix  obj/, $(notdir  $(SRC:.cpp=.d)))

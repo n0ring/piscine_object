@@ -242,5 +242,6 @@ void paintLogo()
 
 void School::graduationCeremony()
 {
+	std::cout << YELLOW <<  "Graduation ceremony\n" << BLACK;
 	m_professors[0]->graduateAllStudent(m_students);
 }
