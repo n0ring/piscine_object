@@ -50,18 +50,19 @@ const std::vector<std::string> hogwartsCourses = {
     };
 
 void paintLogo();
+
 School::School()
 {
 	int courseIdx = 0;
 	m_headmaster = std::make_shared<Headmaster>("Albus Dumbledore");
-	while (m_professors.size() < 5)
+	while (m_professors.size() < k_maxNumberOfProfessors)
 		recruteProfessor();
-	while (m_students.size() < 10)
+	while (m_students.size() < k_maxNumberOfStudents)
 		recruteStudent();
 
 	for (auto& professor : m_professors)
 	{
-		m_courses.push_back(professor->createCourse(hogwartsCourses[courseIdx++], 1, 10));
+		m_courses.push_back(professor->createCourse(hogwartsCourses[courseIdx++], k_numberOfClassForGraduation, k_maxNumberOfStudentsOnCourse));
 		m_classrooms.push_back(professor->createClassRoom("Classroom"));
 		professor->setClassRoom(m_courses.back(), m_classrooms.back());
 	}
@@ -175,15 +176,21 @@ void School::launchLunch()
 }
 
 
+
+
+
+
+
+
 void School::runDayRoutine()
 {
-	launchClasses();
-	doRecreation();
-	launchClasses();
-	launchLunch();
-	launchClasses();
-	doRecreation();
-	launchClasses();
+	launchClasses(); // 1. launch classes
+	doRecreation(); // 2. allow student and professor to go on recreation 
+	launchClasses(); // 3. launch classes
+	launchLunch(); // 4. launch lunch
+	launchClasses(); // 5. launch classes
+	doRecreation(); // 6. allow student and professor to go on recreation 
+	launchClasses(); // 7. launch classes
 	doRecreation();
 }
 

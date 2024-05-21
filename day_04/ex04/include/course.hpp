@@ -9,10 +9,7 @@
 class Professor;
 class Student;
 
-enum class Event
-{
-	RingBell
-};
+
 
 class Course
 {
@@ -26,6 +23,7 @@ public:
 	void assign(Professor* p_professor) {_responsable = p_professor;}
 	bool subscribe(Student* p_student);
 	bool assignToClassRoom(std::shared_ptr<Classroom> p_classroom);
+	Classroom* getClassRoom() {return _classroom;}
 	void setNumberOfClasToGraduate(int n) { _numberOfClassToGraduate = n; }
 	void setMaxNumberOfStudents(int n ) { _maximumNumberOfStudent = n; }
 
@@ -35,12 +33,13 @@ public:
 	void teachStudent();
 	bool isPersonAssignedToCourse(Person* p_person);
 
+
 private:
 	std::string _name;
 	Professor* _responsable;
 	std::vector<Student*> _students;
 	int _numberOfClassToGraduate;
 	int _maximumNumberOfStudent;
-	std::shared_ptr<Classroom> _classroom;
+	Classroom* _classroom;
 };
 

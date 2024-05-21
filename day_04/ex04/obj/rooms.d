@@ -424,7 +424,7 @@ obj/rooms.o: src/rooms.cpp include/rooms.hpp \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/stack \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/deque \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/map \
-  include/forms.hpp
+  include/forms.hpp include/observer.hpp
 
 include/rooms.hpp:
 
@@ -1281,3 +1281,5 @@ include/persons.hpp:
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/map:
 
 include/forms.hpp:
+
+include/observer.hpp:

@@ -14,16 +14,16 @@ Room::Room(const Room& p_room)
 	_occupants = p_room._occupants;
 }
 
-bool Room::canEnter(std::shared_ptr<Person>)
+bool Room::canEnter(Person*)
 {
 	return true;
 }
 
-void Room::enter(std::shared_ptr<Person> p_person)
+void Room::enter(Person* p_person)
 {
 	_occupants.insert(p_person);
 }
-void Room::exit(std::shared_ptr<Person> p_person)
+void Room::exit(Person* p_person)
 {
 	if (_occupants.count(p_person))
 		_occupants.erase(p_person);
@@ -36,31 +36,33 @@ void Classroom::assignCourse(std::shared_ptr<Course> p_course)
 
 void Room::printOccupant()
 {
+	std::cout << "[";
 	for (auto it = _occupants.begin(); it != _occupants.end(); it++)
 	{
-		std::cout << (*it)->getName() << std::endl;
+		std::cout << (*it)->getName() << " ";
 	}
+	std::cout << "]" << std::endl;
 }
 
 void Classroom::printOccupant()
 {
-	std::cout << "Classroom: " << _roomName << std::endl;
+	std::cout << "Classroom: "  << _roomName;
 	if (_currentCourse)
-		std::cout << "Course: " << _currentCourse->getName() << std::endl;
+		std::cout << "Course: " << _currentCourse->getName() << " ";
 	Room::printOccupant();
 }
 
-bool Classroom::canEnter(std::shared_ptr<Person> p_person)
+bool Classroom::canEnter(Person* p_person)
 {
 	if (_currentCourse)
 	{
-		if (_currentCourse->isPersonAssignedToCourse(p_person.get()))
+		if (_currentCourse->isPersonAssignedToCourse(p_person))
 			return true;
 	}
 	return false;
 }
 
-void  Classroom::enter(std::shared_ptr<Person> p_person)
+void  Classroom::enter(Person* p_person)
 {
 	if (canEnter(p_person))
 		Room::enter(p_person);

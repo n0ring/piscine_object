@@ -335,3 +335,72 @@ int Student::getNumberOfClassAttended(std::shared_ptr<Course> p_course)
 	}
 	return 0;
 }
+
+void Person::attendClass(Classroom* p_classroom)
+{
+	if (p_classroom)
+	{
+		p_classroom->enter(this);
+		enterRoom(p_classroom);
+	}
+	else 
+	{
+		std::cout << "Person: " << getName() << " can't attend class" << std::endl;
+	}
+}
+
+void Person::exitClass()
+{
+	if (room())
+	{
+		room()->exit(this);
+		enterRoom(nullptr);
+	}
+}
+
+/// @brief check event, enter or exit the classroom, teach
+/// @param event 
+void Professor::update(const Event &event) 
+{
+	if (event == Event::RingBell)
+	{
+		if (room())
+		{
+			exitClass();
+			std::cout << "Professor: " << getName() << " exit classroom" << std::endl;
+		}
+		else if (_currentCourse)
+		{
+			attendClass(_currentCourse->getClassRoom());
+			std::cout << "Professor: " << getName() << " enter classroom" << std::endl;
+			teach();
+		}
+	}
+}
+
+void Student::update(const Event& event) 
+{
+	if (event == Event::RingBell)
+	{
+		if (room())
+		{
+			exitClass();
+			std::cout << "Student: " << getName() << " exit class" << std::endl;
+		}
+		else if (_subscribedCourse.empty() == false)
+		{
+			auto course = _subscribedCourse.begin()->first;
+			if (course)
+			{
+				attendClass(course->getClassRoom());
+				std::cout << "Student: " << getName() << " attend class" << std::endl;
+			}
+		}
+	}
+}
+
+
+
+
+
+

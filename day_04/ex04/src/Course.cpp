@@ -42,7 +42,7 @@ bool Course::assignToClassRoom(std::shared_ptr<Classroom> p_classroom)
 	if (p_classroom)
 	{
 		std::cout << "Course: " << _name << " is assigned to classroom" << std::endl;
-		_classroom = p_classroom;
+		_classroom = p_classroom.get();
 		return true;
 	}
 	return false;

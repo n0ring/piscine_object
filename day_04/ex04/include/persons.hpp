@@ -7,6 +7,7 @@
 #include "forms.hpp"
 #include "course.hpp"
 #include "rooms.hpp"
+#include "observer.hpp"
 
 class Form;
 class CourseFinishedForm;
@@ -27,7 +28,7 @@ class Person
 {
 private:
 	std::string _name;
-	std::shared_ptr<Room> _currentRoom;
+	Room* _currentRoom;
 public:
 	Person() = default;
 	Person(std::string& p_name) : _name(p_name) {}
@@ -35,7 +36,12 @@ public:
 	Person& operator=(const Person& p_person);
 	Person(const Person& p_person);
 	std::string getName();
-	std::shared_ptr<Room> room() {return (_currentRoom);}
+	Room*room() {return (_currentRoom);}
+
+
+	void attendClass(Classroom* p_classroom);
+	void exitClass();
+	void enterRoom(Room* p_room) {_currentRoom = p_room;}
 };
 
 class Staff : public Person
@@ -48,7 +54,7 @@ public:
 	void sign(std::shared_ptr<Form> p_form) {p_form->sigh();}
 };
 
-class Student : public Person
+class Student : public Person, public IObserver
 {
 private:
 	std::map<Course*, int > _subscribedCourse; // course and number of class attended
@@ -63,8 +69,7 @@ public:
 	Student& operator=(const Student& p_student);
 	Student(const Student& p_student);
 	
-	void attendClass(std::shared_ptr<Classroom> p_classroom);
-	void exitClass();
+
 	void graduate(std::shared_ptr<Course> p_course);
 	void subscribe(Course* p_course);
 	void subscribeToCourse(std::shared_ptr<Course> p_course);
@@ -72,9 +77,11 @@ public:
 
 	bool attendCourse(Course* p_course);
 	int getNumberOfClassAttended(std::shared_ptr<Course> p_course);
+
+    void update(const Event& event) override;
 };
 
-class Headmaster : public Staff
+class Headmaster : public Staff, public ISubject
 {
 private:
 	std::stack<std::shared_ptr<Form> > _formToValidate;
@@ -111,7 +118,7 @@ struct courseInfo
 	int nmaximumNumberOfStudent;
 };
 
-class Professor : public Staff
+class Professor : public Staff, public IObserver
 {
 private:
 	std::shared_ptr<Course> _currentCourse;
@@ -137,4 +144,5 @@ public:
 	bool setClassRoom(std::shared_ptr<Course> p_course, std::shared_ptr<Classroom> p_classroom);
 	
 	void teach();
+    void update(const Event& event) override;
 };

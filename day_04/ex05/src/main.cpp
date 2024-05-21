@@ -9,10 +9,10 @@
 
 int main() {
 	School school;
-	school.requestRingBell();
-	// school.graduationCeremony();
-	// school.runDayRoutine();
-	// school.graduationCeremony();
+	school.graduationCeremony();
+	school.runDayRoutine();
+	school.runDayRoutine();
+	school.graduationCeremony();
 
 	return 0;
 }

@@ -180,11 +180,6 @@ void Professor::fillForm(std::shared_ptr<Form> p_form)
 	std::shared_ptr<NeedCourseCreationForm> formPtr = nullptr;
 	std::string p_text;
 
-	if (_studentsToGraduate.empty() && _courseToCreate.empty())
-	{
-		std::cout << "Professor: " << getName() << " has no form to fill" << std::endl;
-		return;
-	}
 	std::cout << "Professor: " << getName() << " fill form" << std::endl;
 
 	switch (p_form->getFormType())
@@ -364,10 +359,7 @@ void Person::attendClass(Classroom* p_classroom)
 {
 	if (p_classroom)
 	{
-		std::cout << "attendClass" << p_classroom << std::endl;
 		p_classroom->enter(this);
-		std::cout << "attendClass\n";
-
 		enterRoom(p_classroom);
 	}
 	else 
@@ -389,7 +381,6 @@ void Person::exitClass()
 /// @param event 
 void Professor::update(const Event &event) 
 {
-	std::cout << "Professor: " << getName() << " update" << std::endl;
 	if (event == Event::RingBell)
 	{
 		if (room())
@@ -407,7 +398,6 @@ void Professor::update(const Event &event)
 	{
 		teach();
 	}
-	std::cout << "Professor: " << getName() << " update end" << std::endl;
 }
 
 void Student::update(const Event& event) 

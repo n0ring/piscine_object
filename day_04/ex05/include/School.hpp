@@ -27,11 +27,16 @@ public:
 	void requestRingBell(); // go from classes to lunch
 	void launchClasses(); // start classes
 	void runDayRoutine();
-
 	void graduationCeremony();
 
 
+
 private:
+	const size_t k_maxNumberOfStudents = 10;
+	const size_t k_maxNumberOfProfessors = 5;
+	const int k_maxNumberOfStudentsOnCourse = 10;
+	const int k_numberOfClassForGraduation = 1;
+
 	void doRecreation();
 	void launchLunch();
 	std::shared_ptr<Headmaster> m_headmaster;

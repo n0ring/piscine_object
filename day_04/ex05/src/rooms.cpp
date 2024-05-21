@@ -54,10 +54,7 @@ void Classroom::printOccupant()
 
 bool Classroom::canEnter(Person* p_person)
 {
-	std::cout << "canEnter "  << std::endl;
 	(void) p_person;
-	std::cout << _currentCourse << std::endl;
-	std::cout << "canEnter "  << std::endl;
 	if (_currentCourse)
 	{
 		if (_currentCourse->isPersonAssignedToCourse(p_person))
@@ -68,10 +65,8 @@ bool Classroom::canEnter(Person* p_person)
 
 void  Classroom::enter(Person* p_person)
 {
-	std::cout << "enter\n";
 	if (canEnter(p_person))
-		_occupants.insert(p_person);
-		// Room::enter(p_person);
+		Room::enter(p_person);
 }
 
 
